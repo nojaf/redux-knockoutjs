@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "ES6"
+	},
+	"files":[
+		"typings/tsd.d.ts"
+	],
+	"exclude":[
+		"node_modules",
+		"typings",
+		"src/declarations/app.d.ts"
+	]
+}
