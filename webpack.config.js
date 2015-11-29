@@ -5,7 +5,7 @@ var glob = require("glob");
 module.exports = [{
 	entry:{
 		"app":"./src/app.ts",
-		 vendor: ["knockout"]
+		 vendor: ["knockout","object-assign","redux"]
 	},
 	output: {
 		path: __dirname + "/dist",
