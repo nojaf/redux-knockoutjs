@@ -8,9 +8,9 @@
   },
   "scripts": {
     "pretests":"webpack",
-    "tests": "mocha \"./tests/tests.js\"",
+    "test": "mocha \"./tests/tests.js\"",
     "watch":"webpack --watch",
-    "tests:watch":"mocha \"./tests/tests.js\" --watch",
+    "test:watch":"mocha \"./tests/tests.js\" --watch",
     "server":"webpack-dev-server --inline --watch --content-base dist",
     "compile":"webpack"
   },
