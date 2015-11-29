@@ -7,6 +7,22 @@ function changeWidth(width:number):IAction{
 	}
 }
 
+function changeHeight(height:number):IAction{
+	return {
+		type:ActionTypes.CHANGE_HEIGHT,
+		payload:height	
+	};
+}
+
+function changeColor(color:string):IAction {
+	return {
+		type:ActionTypes.CHANGE_COLOR,
+		payload:color
+	}
+}
+
 export default {
-	changeWidth
+	changeWidth,
+	changeHeight,
+	changeColor
 }

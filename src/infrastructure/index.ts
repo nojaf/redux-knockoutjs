@@ -1,7 +1,8 @@
 export interface IApplicationState {
-	width: number;
-	height: number;
-	color: string;
+	width?: number;
+	height?: number;
+	color?: string;
+	errors?:Array<string>;
 }
 
 export enum ActionTypes {
@@ -12,5 +13,5 @@ export enum ActionTypes {
 
 export interface IAction {
 	type: ActionTypes,
-	payload: any
+	payload?: any
 }

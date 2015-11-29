@@ -44,7 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	__webpack_require__(1);
+	module.exports = __webpack_require__(44);
 
 
 /***/ },
@@ -65,13 +66,39 @@
 
 	describe("action", function () {
 	    describe("changeWidth", function () {
+	        var action = undefined;
+	        beforeEach(function () {
+	            action = _index2.default.changeWidth(200);
+	        });
 	        it("should return action with type CHANGE_WIDTH", function () {
-	            var action = _index2.default.changeWidth(200);
 	            _chai.assert.equal(action.type, _index3.ActionTypes.CHANGE_WIDTH);
 	        });
 	        it("should return action with payload 200", function () {
-	            var action = _index2.default.changeWidth(200);
 	            _chai.assert.equal(action.payload, 200);
+	        });
+	    });
+	    describe("changeHeight", function () {
+	        var action = undefined;
+	        beforeEach(function () {
+	            action = _index2.default.changeHeight(150);
+	        });
+	        it("should return action with type CHANGE_HEIGHT", function () {
+	            _chai.assert.equal(action.type, _index3.ActionTypes.CHANGE_HEIGHT);
+	        });
+	        it("should return action with payload 150", function () {
+	            _chai.assert.equal(action.payload, 150);
+	        });
+	    });
+	    describe("changeColor", function () {
+	        var action = undefined;
+	        beforeEach(function () {
+	            action = _index2.default.changeColor("red");
+	        });
+	        it("should return action with type CHANGE_COLOR", function () {
+	            _chai.assert.equal(action.type, _index3.ActionTypes.CHANGE_COLOR);
+	        });
+	        it("should return action with payload red", function () {
+	            _chai.assert.equal(action.payload, "red");
 	        });
 	    });
 	});
@@ -94,8 +121,22 @@
 	        payload: width
 	    };
 	}
+	function changeHeight(height) {
+	    return {
+	        type: _index.ActionTypes.CHANGE_HEIGHT,
+	        payload: height
+	    };
+	}
+	function changeColor(color) {
+	    return {
+	        type: _index.ActionTypes.CHANGE_COLOR,
+	        payload: color
+	    };
+	}
 	exports.default = {
-	    changeWidth: changeWidth
+	    changeWidth: changeWidth,
+	    changeHeight: changeHeight,
+	    changeColor: changeColor
 	};
 
 /***/ },
@@ -7937,6 +7978,200 @@
 	  ('isNotSealed', 'notSealed')
 	  ('isFrozen', 'frozen')
 	  ('isNotFrozen', 'notFrozen');
+	};
+
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _index = __webpack_require__(2);
+
+	var _index2 = _interopRequireDefault(_index);
+
+	var _chai = __webpack_require__(4);
+
+	var _index3 = __webpack_require__(45);
+
+	var _index4 = _interopRequireDefault(_index3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	describe("reducers", function () {
+	    describe("unknown action", function () {
+	        it("should return the initialState", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var state = (0, _index4.default)(initialState, { type: 147, payload: null });
+	            _chai.assert.deepEqual(initialState, state);
+	        });
+	    });
+	    describe("changeWidth", function () {
+	        it("should add an error when the width is not numeric", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var state = (0, _index4.default)(initialState, _index2.default.changeWidth("invalid"));
+	            _chai.assert.equal(state.errors.length, 1);
+	        });
+	        it("should add the with if it's valid", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var state = (0, _index4.default)(initialState, _index2.default.changeWidth(150));
+	            _chai.assert.equal(state.width, 150);
+	        });
+	        it("should remove an error when valid", function () {
+	            var initialState = { errors: ["Width should be numeric", "other error"] };
+	            Object.freeze(initialState);
+	            var state = (0, _index4.default)(initialState, _index2.default.changeWidth(150));
+	            _chai.assert.equal(state.errors.length, 1);
+	        });
+	    });
+	    describe("changeHeight", function () {
+	        it("should add an error when the height is not numeric", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var state = (0, _index4.default)(initialState, _index2.default.changeHeight(null));
+	            _chai.assert.equal(state.errors.length, 1);
+	        });
+	        it("should not add the same error twice", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var secondState = (0, _index4.default)(initialState, _index2.default.changeHeight(null));
+	            Object.freeze(secondState);
+	            var state = (0, _index4.default)(secondState, _index2.default.changeHeight(null));
+	            _chai.assert.equal(state.errors.length, 1);
+	        });
+	        it("should remove an error when new height is valid", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var secondState = (0, _index4.default)(initialState, _index2.default.changeHeight(null));
+	            Object.freeze(secondState);
+	            var state = (0, _index4.default)(secondState, _index2.default.changeHeight(7));
+	            _chai.assert.equal(state.errors.length, 0);
+	        });
+	    });
+	    describe("changeColor", function () {
+	        it("should change the color", function () {
+	            var initialState = {};
+	            Object.freeze(initialState);
+	            var state = (0, _index4.default)(initialState, _index2.default.changeColor("red"));
+	            _chai.assert.equal(state.color, "red");
+	        });
+	    });
+	});
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = rootReducer;
+
+	var _index = __webpack_require__(3);
+
+	var _objectAssign2 = __webpack_require__(46);
+
+	var _objectAssign3 = _interopRequireDefault(_objectAssign2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var widthError = "Width should be numeric";
+	var heightError = "Height should be numeric";
+	var reducerMap = new Map();
+	function changeWidth(initialState, width) {
+	    if (isValidNumeric(width)) {
+	        return updatedErrorState(initialState, widthError, "width");
+	    }
+	    var errors = removeError(initialState.errors, widthError);
+	    return (0, _objectAssign3.default)({}, initialState, { width: width, errors: errors });
+	}
+	function changeHeight(initialState, height) {
+	    if (isValidNumeric(height)) {
+	        return updatedErrorState(initialState, heightError, "height");
+	    }
+	    var errors = removeError(initialState.errors, heightError);
+	    return (0, _objectAssign3.default)({}, initialState, { height: height, errors: errors });
+	}
+	function isValidNumeric(input) {
+	    return !input || isNaN(input);
+	}
+	function updatedErrorState(initialState, error, resetValue) {
+	    var errors = initialState.errors ? addError(initialState.errors, error) : [error];
+	    return (0, _objectAssign3.default)({}, initialState, _defineProperty({ errors: errors }, resetValue, 0));
+	}
+	function addError(errors, newError) {
+	    if (errors.indexOf(newError) !== -1) return errors;
+	    return [].concat(errors, [newError]);
+	}
+	function removeError(errors, errorToRemove) {
+	    if (!errors) return [];
+	    var index = errors.indexOf(errorToRemove);
+	    if (index === -1) return errors;
+	    return [].concat(errors.slice(0, index), errors.slice(index + 1));
+	}
+	function changeColor(initialState, color) {
+	    return (0, _objectAssign3.default)({}, initialState, { "color": color });
+	}
+	reducerMap.set(_index.ActionTypes.CHANGE_WIDTH, changeWidth);
+	reducerMap.set(_index.ActionTypes.CHANGE_HEIGHT, changeHeight);
+	reducerMap.set(_index.ActionTypes.CHANGE_COLOR, changeColor);
+	function rootReducer() {
+	    var initialState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    return reducerMap.has(action.type) ? reducerMap.get(action.type)(initialState, action.payload) : initialState;
+	}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	/* eslint-disable no-unused-vars */
+	'use strict';
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+
+		return to;
 	};
 
 
