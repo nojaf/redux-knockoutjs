@@ -55,7 +55,7 @@ class MainViewModel {
 	}
 	
 	private getState():IApplicationState{
-		return store.getState() || {color:"", width:"", height:"", erros:[]};
+		return store.getState() || {color:"", width:"", height:"", errors:[]};
 	}
 
 	private dispatch(action:IAction){
